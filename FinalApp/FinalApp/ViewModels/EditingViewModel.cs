@@ -1,22 +1,19 @@
 ﻿using FinalApp.Model;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using SL;
 
 namespace FinalApp.ViewModels
 {
-   public  class InscriptionViewModel : BaseViewModel
+    public class EditingViewModel:BaseViewModel
     {
         // Step 1:
         // the First property to be recovered from the UI
-       
-        public Employee Employee {get;set;}
+
+        public Employee Employee { get; set; }
+        private int Id { get;  }
         private String text;
         public String Text //paramètre de Binding au niveau du view
         {
@@ -41,39 +38,42 @@ namespace FinalApp.ViewModels
         }
 
         #region  Saving  employee
-      
+
         public ICommand SaveEmployeeCommand => new Command(async () =>
         {
             var employee = new Employee()
-            {   
+            {   Id = Id,
                 Text = Text,
                 Description = Description,
-                IsVisible=false
-               
+                IsVisible = false
+
             };
-            
-          await DataStore.AddAsync(employee);
+
+            int r = await DataStore.UpdateAsync(employee);
             Console.WriteLine("add employee " + employee.Text);
-         
-                await _nav.PopAsync();
+
+            await _nav.PopAsync();
         });
 
         #endregion
 
         #region constructor
 
-        public InscriptionViewModel()
+        public EditingViewModel()
         {
-            Title = "Inscription ";
+            Title = "Edit ";
         }
 
-       
 
-        public InscriptionViewModel(INavigation nav)
+
+        public EditingViewModel(INavigation nav,Employee employee)
         {
-            this.Employee = Employee;
+            this.Employee = employee;
+            this.Text = Text;
+            this.Description = Description;
+            this.Id = employee.Id;
 
-            Title = "Inscription ";
+            Title = "Edit ";
             _nav = nav;
             CurrentPage = DependencyInject<Views.InscriptionViewPage>.Get();
             OpenPage();
@@ -89,7 +89,7 @@ namespace FinalApp.ViewModels
 
         public ICommand ReturnCommand => new Command(() =>
         {
-           
+
 
             ////MessagingCenter.Send(this, "AddEmployee", Employee);
             var _employee = Employee as Employee;
@@ -100,6 +100,16 @@ namespace FinalApp.ViewModels
 
 
         });
+
+
+
+
+
+
+
+
+
+
     }
 
 }

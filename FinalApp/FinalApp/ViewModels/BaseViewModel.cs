@@ -22,9 +22,26 @@ namespace FinalApp.ViewModels
         #region the property 
         public INavigation _nav;
         public ContentPage CurrentPage { get; set; }
-        public string title = "";
+        string title = string.Empty;
         public bool isBusy = false;
+        public bool pageIsBusy = false;
         #endregion
+
+
+
+
+
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
+        }
+       
+        public string Title
+        {
+            get { return title; }
+            set { SetProperty(ref title, value); }
+        }
 
         #region NotifyPropertyChanged members
 
@@ -55,11 +72,11 @@ namespace FinalApp.ViewModels
         #endregion
 
         #region setting of the property
-        public bool IsBusy
+        public bool PageIsBusy
         {
             get
             {
-                if (IsBusy == true)
+                if (PageIsBusy == true)
                 {
                     CurrentPage.IsEnabled = false;
                 }
@@ -67,26 +84,16 @@ namespace FinalApp.ViewModels
                 {
                     CurrentPage.IsEnabled = true;
                 }
-                return isBusy;
+                return pageIsBusy;
             }
             set
             {
-                SetProperty(ref isBusy, value);
+                SetProperty(ref pageIsBusy, value);
             }
         }
 
 
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                SetProperty(ref title, value);
-            }
-        }
+  
         #endregion
 
         #region the navigation handler members

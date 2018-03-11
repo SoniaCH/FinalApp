@@ -16,13 +16,9 @@ namespace FinalApp.ViewModels
 
         public Action DisplayInvalidLoginPrompt;// display alerte
 
-        public Action DisplayValidLoginPrompt;
-
+        public Action DisplayValidLoginPrompt;      
         public ObservableCollection<Employee> ListEmployees { get; set; }
        
-
-      
-
         public AuthentificationViewModel()
         {
             Title = "Authentification";
@@ -57,6 +53,9 @@ namespace FinalApp.ViewModels
         }
 
         #endregion
+
+
+
         #region constructor
         public AuthentificationViewModel(INavigation nav)
         {
@@ -64,32 +63,8 @@ namespace FinalApp.ViewModels
              _nav = nav;
              CurrentPage = DependencyInject<AuthentificationViewPage>.Get();
              OpenPage();
-
-
-            MessagingCenter.Subscribe<InscriptionViewPage, Employee>(this, "AddEmployee", async (obj, employee) =>
-            {
-                var _employee = employee as Employee;
-                ListEmployees.Add(_employee);
-                await DataStore.AddAsync(_employee);
-            });
-
-        }
-
-
-        public ICommand SubmitCommand => new Command(() =>
-        {
-            
-
           
-                var ss = DependencyService.Get<ListViewModel>() ?? (new ListViewModel(_nav));
-            
-               
-           
-
-        });
-
-    
-
+        }
 
 
         #endregion
@@ -102,10 +77,36 @@ namespace FinalApp.ViewModels
         });
 
 
+        #region button to login
+        public ICommand EnterEmployeeCommand => new Command(async () =>
+        {
+            IEnumerable<Employee> _employeelist = await DataStore.GetAllAsync() as IEnumerable<Employee>;
+
+            foreach (Employee item in _employeelist)
+            {
+                if (item.Text == text && item.Description == description)
+                {
+                    var ss = DependencyService.Get<ListViewModel>() ?? (new ListViewModel(_nav));
+                  
+                }
+            }
+        });
+        #endregion
+
+
 
         #region the function to enter the home page 
 
-        
+        public ICommand RemoveEmployeeCommand => new Command(async () =>
+        {
+            IEnumerable<Employee> _employeelist = await DataStore.GetAllAsync() as IEnumerable<Employee>;
+
+            foreach (Employee item in _employeelist)
+            {
+                int d = await DataStore.DeleteAsync(item);
+                Console.WriteLine("delete employee " + d);                                 
+            }
+        });
 
 
 

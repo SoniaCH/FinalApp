@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FinalApp.Views.AuthentificationViewPage">
+             x:Class="FinalApp.Views.AuthentificationViewPage"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Padding="30" Spacing="25" BackgroundColor="#93dcff">
             <BoxView HeightRequest="10" />
@@ -12,8 +13,9 @@
                     <Entry x:Name="Password" Text="{Binding Description}" Placeholder="Your Password" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
                 </StackLayout>
             </Frame>
-            <Button Command="{Binding SubmitCommand}" Text="Login" TextColor="Gray" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" />
+            <Button Command="{Binding EnterEmployeeCommand}" Text="Login" TextColor="Gray" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" />
             <Button Command="{Binding InscriptionCommand}" Text="Inscription" TextColor="Gray" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" />
+            <Button Command="{Binding RemoveEmployeeCommand}" Text="Delete all employee" TextColor="Gray" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

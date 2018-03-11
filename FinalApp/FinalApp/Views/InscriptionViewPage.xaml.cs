@@ -14,26 +14,18 @@ namespace FinalApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class InscriptionViewPage : ContentPage
 	{
-        public Employee Employee { get; set; }
 
         public InscriptionViewPage()
         {
             InitializeComponent();
-
-            Employee = new Employee
-            {  
-                Text = "Departement",
-                Description = "test"
-            };
-           // BindingContext = this;
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
-        {
-            MessagingCenter.Send(this, "AddEmployee", Employee);
-            //await Navigation.PopModalAsync();
+        //async void Save_Clicked(object sender, EventArgs e)
+        //{
+        //    MessagingCenter.Send(this, "AddEmployee", Employee);
+        //    //await Navigation.PopModalAsync();
 
-            var ss = DependencyService.Get<AuthentificationViewModel>() ?? (new AuthentificationViewModel());
-        }
+        //    var ss = DependencyService.Get<AuthentificationViewModel>() ?? (new AuthentificationViewModel());
+        //}
     }
 }

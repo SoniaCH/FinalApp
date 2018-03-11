@@ -1,11 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FinalApp.Views.ListViewPage">
+             x:Class="FinalApp.Views.ListViewPage"
+             Title="{Binding Title}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddEmloyeeCommand}"/>
+    </ContentPage.ToolbarItems>
+    
  <ContentPage.Content>
         <StackLayout>
             <!--<Button Text="Add Employee" Clicked="AddItem_Clicked"/>-->
-            <Label Text="{Binding NameOfEmployee}" />
+
             <ListView x:Name="ItemsListView"
                  ItemsSource="{Binding ListEmployees}"
                  VerticalOptions="FillAndExpand"
@@ -13,53 +19,50 @@
                  RefreshCommand="{Binding LoadEmployeesCommand}"
                  IsPullToRefreshEnabled="true"
                  IsRefreshing="{Binding IsBusy, Mode=OneWay}"
-                 CachingStrategy="RecycleElement"
-                >
-                <!--ItemTapped="ListView_OnItemTapped"-->
+                 SelectedItem="{Binding SelectedEmployee}"
+                 
+                 CachingStrategy="RecycleElement">
 
-                <!--ItemSelected="OnItemSelected">-->
-                <!-- the header of the list View which contains a serach bar  -->
                 <ListView.Header>
 
                     <StackLayout Orientation="Horizontal" BackgroundColor="#b9b4aa" Spacing="20" >
-                        <!--<Image HeightRequest ="24" WidthRequest="24" Source="menu.ico" HorizontalOptions="Start" VerticalOptions="Center" >
-                            <Image.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnImageTapped" NumberOfTapsRequired="1" />
-                            </Image.GestureRecognizers>
-                        </Image>-->
-                        <SearchBar Text="{Binding SearchText}"
-                               Placeholder="Search..."
-                               BackgroundColor="#b9b4aa"
-                               VerticalOptions="End"
-                               SearchCommand="{Binding SearchEmployeesCommand}">
+                        
+                        <SearchBar TextChanged="{Binding SearchText}"
+                                   Placeholder="Search..."
+                                   BackgroundColor="#b9b4aa"
+                                   VerticalOptions="End"
+                                   SearchCommand="{Binding Path=BindingContext.SearchCommand, Source={x:Reference ItemsListView}">
                         </SearchBar>
+                       
                     </StackLayout>
 
                 </ListView.Header>
-                <!-- end of the header -->
+
+
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
 
                             <StackLayout >
-                                <StackLayout Padding="10" Orientation="Horizontal">
-                                    
+                                <StackLayout Padding="10" Orientation="Vertical">
+
                                     <StackLayout Padding="10">
-                                        <Label Text="{Binding Text}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemTextStyle}" FontSize="16" />
-                                        <Label Text="{Binding Description}" LineBreakMode="NoWrap" Style="{DynamicResource ListItemDetailTextStyle}" FontSize="13" />
+                                        <Label Text="{Binding Text}" FontSize="Medium" />
+                                        <Label Text="{Binding Description}" FontSize="Small" />
                                     </StackLayout>
-                                </StackLayout>
-                                <StackLayout IsVisible="{Binding IsVisible}"  HorizontalOptions="Center"  Orientation="Horizontal" >
-                                    <!-- use this for double source binding -->
-                                    <Button  Command="{Binding Path=BindingContext.DetailsEmployeeCommand, Source={x:Reference ItemsListView} }" 
+                                    <StackLayout IsVisible="{Binding IsVisible}"  HorizontalOptions="Center"  Orientation="Horizontal" >
+                                        <!-- use this for double source binding -->
+                                        <Button  Command="{Binding Path=BindingContext.DetailsEmployeeCommand, Source={x:Reference ItemsListView}" 
                                              Text="Details" BackgroundColor="DarkGreen" TextColor="White" WidthRequest="100" FontSize="12" />
 
-                                    <!--<Button Command="{Binding Path=BindingContext.EditCommand, Source={x:Reference linksListView} }" 
+                                        <Button Command="{Binding Path=BindingContext.EditEmployeeCommand, Source={x:Reference ItemsListView}" 
                                             Text="Edit"     BackgroundColor="DodgerBlue"    TextColor="White"  WidthRequest="100"   FontSize="12"/>
 
-                                    <Button Command="{Binding Path=BindingContext.DeleteCommand, Source={x:Reference linksListView} }" 
-                                            Text="Delete"       BackgroundColor="DarkRed"     TextColor="White"     WidthRequest="100"     FontSize="12" />-->
+                                        <Button Command="{Binding Path=BindingContext.DeleteEmployeeCommand, Source={x:Reference ItemsListView}" 
+                                            Text="Delete" BackgroundColor="DarkRed" TextColor="White" WidthRequest="100" FontSize="12" />
 
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
 
