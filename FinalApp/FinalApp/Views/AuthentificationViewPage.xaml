@@ -11,6 +11,7 @@
                 <StackLayout Orientation="Vertical" Spacing="10" >
                     <Entry x:Name="Username" Text="{Binding Text}" Placeholder="Your Username" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
                     <Entry x:Name="Password" Text="{Binding Description}" Placeholder="Your Password" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
+                    <Entry Text="{Binding Msg}"></Entry>
                 </StackLayout>
             </Frame>
             <Button Command="{Binding EnterEmployeeCommand}" Text="Login" TextColor="Gray" FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray" />

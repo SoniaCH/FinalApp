@@ -86,9 +86,12 @@ namespace FinalApp.ViewModels
                     UpdateEmployee(_oldEmployee);
 
                 }
+               else {
                 employee.IsVisible = true;
                 // update the selected employee;
-                UpdateEmployee(employee);     
+                UpdateEmployee(employee);
+            }
+
 
         }
 

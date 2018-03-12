@@ -27,6 +27,19 @@ namespace FinalApp.ViewModels
         // Step 1:
         // the First property to be recovered from the UI
         public ObservableCollection<Employee> ListEmployees { get; set; }
+        private string _msg;
+        public string Msg {
+            get
+            {
+                return _msg;
+            }
+            set
+            {
+                _msg = value;
+                OnPropertyChanged();
+            }
+
+        }
         private String text;
         public String Text //paramètre de Binding au niveau du view
         {
@@ -62,11 +75,12 @@ namespace FinalApp.ViewModels
         }
 
         public AuthentificationViewModel(INavigation nav)
-        {
+        {    
              Title = "First Page";
              _nav = nav;
              CurrentPage = DependencyInject<AuthentificationViewPage>.Get();
              OpenPage();
+            this.Msg = Msg;
           
         }
 
@@ -86,15 +100,25 @@ namespace FinalApp.ViewModels
         #region button to login
         public ICommand EnterEmployeeCommand => new Command(async () =>
         {
+            bool pass = false;
             IEnumerable<Employee> _employeelist = await DataStore.GetAllAsync() as IEnumerable<Employee>;
 
             foreach (Employee item in _employeelist)
             {
                 if (item.Text == text && item.Description == description)
                 {
-                    var ss = DependencyService.Get<ListViewModel>() ?? (new ListViewModel(_nav));
+                    pass = true;
+
+                    //var ss = DependencyService.Get<ListViewModel>() ?? (new ListViewModel(_nav));
                   
                 }
+            }
+            if (pass == true)
+            {
+                var ss = DependencyService.Get<ListViewModel>() ?? (new ListViewModel(_nav));
+            }
+            else {
+                Msg = "Your password is not corret please try again";
             }
         });
         #endregion
