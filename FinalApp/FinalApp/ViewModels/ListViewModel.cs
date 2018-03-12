@@ -19,8 +19,6 @@ namespace FinalApp.ViewModels
         public Command LoadEmployeesCommand { get; set; }
 
         private Employee _selectedEmployee; // the selected employee
-        private Employee _oldEmployee;
-  
 
         public ObservableCollection<Employee> _listEmployees;
         public ObservableCollection<Employee> ListEmployees
@@ -72,18 +70,18 @@ namespace FinalApp.ViewModels
         public void ShowOrHideEmployee(Employee employee)
         {
          
-                if (_oldEmployee == employee)
+                if (_selectedEmployee == employee)
                 {
                     employee.IsVisible = !employee.IsVisible;
                     // update the property of the old employee
                     UpdateEmployee(employee);
 
                 }
-                else if (_oldEmployee != null)
+                else if (_selectedEmployee != null)
                 {
-                    _oldEmployee.IsVisible = false;
+                _selectedEmployee.IsVisible = false;
                     // update the old employee
-                    UpdateEmployee(_oldEmployee);
+                    UpdateEmployee(_selectedEmployee);
 
                 }
                else {
