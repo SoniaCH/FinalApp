@@ -4,8 +4,12 @@
              x:Class="FinalApp.Views.EditingViewPage" 
              Title="{Binding Title}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Add" Command="{Binding SaveEmployeeCommand}"/>
+    
+    
+    <ContentPage.ToolbarItems >
+        <ToolbarItem Text="Save" Command="{Binding SaveEmployeeCommand}"/>
+        <ToolbarItem Text="Edit" Command="{Binding EditEmployeeCommand}"/>
+        <ToolbarItem Text="Back" Command="{Binding ReturnCommand}"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

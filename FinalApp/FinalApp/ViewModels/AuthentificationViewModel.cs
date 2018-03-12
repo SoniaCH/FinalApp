@@ -14,21 +14,19 @@ namespace FinalApp.ViewModels
    public class AuthentificationViewModel:BaseViewModel
     {
 
-        public Action DisplayInvalidLoginPrompt;// display alerte
+        //public Action DisplayInvalidLoginPrompt;// display alerte
 
-        public Action DisplayValidLoginPrompt;      
-        public ObservableCollection<Employee> ListEmployees { get; set; }
-       
-        public AuthentificationViewModel()
-        {
-            Title = "Authentification";
-        }
+        //public Action DisplayValidLoginPrompt;      
 
 
-      
+
+
+
+
         #region defining the atribute 
         // Step 1:
         // the First property to be recovered from the UI
+        public ObservableCollection<Employee> ListEmployees { get; set; }
         private String text;
         public String Text //paramètre de Binding au niveau du view
         {
@@ -57,6 +55,12 @@ namespace FinalApp.ViewModels
 
 
         #region constructor
+
+        public AuthentificationViewModel()
+        {
+            Title = "Authentification";
+        }
+
         public AuthentificationViewModel(INavigation nav)
         {
              Title = "First Page";
@@ -69,13 +73,15 @@ namespace FinalApp.ViewModels
 
         #endregion
 
+        #region To go to the inscription page
+
         public ICommand InscriptionCommand => new Command(() =>
         {
                 var ss = DependencyService.Get<InscriptionViewModel>() ?? (new InscriptionViewModel(_nav));
             
            
         });
-
+        #endregion
 
         #region button to login
         public ICommand EnterEmployeeCommand => new Command(async () =>

@@ -9,8 +9,8 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
-            <Label Text="{Binding Text}" FontSize="Large" VerticalOptions="CenterAndExpand"  />
-            <Label Text="{Binding Description}" FontSize="Medium" VerticalOptions="CenterAndExpand"  />
+            <Label Text="{Binding Text}" FontSize="Large" VerticalOptions="Center"  />
+            <Label Text="{Binding Description}" FontSize="Medium" VerticalOptions="Center"  />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

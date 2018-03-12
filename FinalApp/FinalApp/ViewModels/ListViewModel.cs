@@ -10,53 +10,32 @@ using System.Windows.Input;
 using FinalApp.Views;
 using System.Linq;
 
+
 namespace FinalApp.ViewModels
 {
+   
     public class ListViewModel : BaseViewModel
     {
         public Command LoadEmployeesCommand { get; set; }
-        private Employee _oldEmployee; //the last employee which has the event raised (item clicked)
-        private Employee _selectedEmployee; // the selected employee
 
-        public ObservableCollection<Employee> _listEmployees ;
+        private Employee _selectedEmployee; // the selected employee
+        private Employee _oldEmployee;
+  
+
+        public ObservableCollection<Employee> _listEmployees;
         public ObservableCollection<Employee> ListEmployees
         {
-
-            //    get
-            //{
-            //        ObservableCollection<Employee> _employeesListFound = new ObservableCollection<Employee>();
-            //        if (_listEmployees != null)
-            //        {
-            //            List<Employee> entities = (from e in _listEmployees where e.Text.Contains(_searchText) select e).ToList();
-
-            //            if (entities != null && entities.Any())
-
-            //            {
-            //                _employeesListFound = new ObservableCollection<Employee>(entities);
-            //            }
-            //        }
-            //        return _employeesListFound;
-            //    }
-
-            get { return _listEmployees; }
-                set
+            get
+            {
+                return _listEmployees;
+            }
+            set
             {
                 _listEmployees = value;
-                    OnPropertyChanged();
-                }
-
+                OnPropertyChanged();
             }
 
-
-        #region  adding employee
-        public ICommand AddEmloyeeCommand => new Command(() =>
-        {
-            var ss = DependencyService.Get<InscriptionViewModel>() ?? (new InscriptionViewModel(_nav));
-        });
-        #endregion
-
-   
-        #region SetTheVisibilityCommand method   
+        }
 
         public Employee SelectedEmployee
         {
@@ -70,20 +49,34 @@ namespace FinalApp.ViewModels
                 {
                     _selectedEmployee = value;
                     OnPropertyChanged();
-                    ShowOrHideEmployee(_selectedEmployee);
+                  
 
                 }
             }
         }
 
-        internal void ShowOrHideEmployee(Employee employee)
+
+
+        #region  adding employee
+        public ICommand AddEmloyeeCommand => new Command(() =>
         {
-           
+            var ss = DependencyService.Get<EditingViewModel>() ?? (new EditingViewModel(_nav));
+        });
+        #endregion
+
+
+        #region SetTheVisibilityCommand method   
+
+
+
+        public void ShowOrHideEmployee(Employee employee)
+        {
+         
                 if (_oldEmployee == employee)
                 {
-                    _oldEmployee.IsVisible = !_oldEmployee.IsVisible;
+                    employee.IsVisible = !employee.IsVisible;
                     // update the property of the old employee
-                    UpdateEmployee(_oldEmployee);
+                    UpdateEmployee(employee);
 
                 }
                 else if (_oldEmployee != null)
@@ -95,17 +88,17 @@ namespace FinalApp.ViewModels
                 }
                 employee.IsVisible = true;
                 // update the selected employee;
-                UpdateEmployee(employee);
+                UpdateEmployee(employee);     
 
-
-         
         }
+
+
 
         private void UpdateEmployee(Employee employee)
         {
             var index = ListEmployees.IndexOf(employee);
             ListEmployees.Remove(employee);
-            ListEmployees.Insert(index,employee);
+            ListEmployees.Insert(index, employee);
         }
 
         #endregion
@@ -116,24 +109,29 @@ namespace FinalApp.ViewModels
         public ListViewModel()
         {
             Title = "List  ";
+            this.ListEmployees = _listEmployees;
+            ListEmployees = new ObservableCollection<Employee>();
+
+            LoadEmployeesCommand = new Command(async () => await ExecuteLoadEmployeesCommand());
         }
 
         public ListViewModel(INavigation nav)
         {
-             Title = "List of the employee ";
+            Title = "List of the employee ";
             this.ListEmployees = _listEmployees;
+            this.SelectedEmployee = _selectedEmployee;
+         
             _nav = nav;
             CurrentPage = DependencyInject<Views.ListViewPage>.Get();
             OpenPage();
 
             ListEmployees = new ObservableCollection<Employee>();
+            this.SearchText = SearchText;
 
             LoadEmployeesCommand = new Command(async () => await ExecuteLoadEmployeesCommand());
             Console.WriteLine("the number of employee " + ListEmployees.Count);
             if (ListEmployees.Count == 0)
             { LoadEmployeesCommand.Execute(null); }
-           
-
         }
 
         #endregion
@@ -171,26 +169,26 @@ namespace FinalApp.ViewModels
 
         #endregion
 
-        #region goig to the page to see the details of the employee
+        #region going to the page to see the details of the employee
         public ICommand DetailsEmployeeCommand => new Command(async () =>
         {
-            var ss = DependencyService.Get<DetailsViewModel>() ?? (new DetailsViewModel(_nav,_selectedEmployee));
+            var ss = DependencyService.Get<DetailsViewModel>() ?? (new DetailsViewModel(_nav, _selectedEmployee));
 
         });
         #endregion
 
-        
+
         #region deleting the employee
         public ICommand DeleteEmployeeCommand => new Command(async () =>
         {
-            await DataStore.DeleteAsync(_selectedEmployee);          
+            await DataStore.DeleteAsync(_selectedEmployee);
             ListEmployees.Remove(_selectedEmployee);
 
 
         });
         #endregion
 
-        #region goig to the page to see the details of the employee
+        #region Editing the employee
         public ICommand EditEmployeeCommand => new Command(async () =>
         {
             var ss = DependencyService.Get<EditingViewModel>() ?? (new EditingViewModel(_nav, _selectedEmployee));
@@ -201,9 +199,8 @@ namespace FinalApp.ViewModels
 
         #region Command and associated methods for SearchCommand
         //step1: add an attribute for word to search
-        private string _searchText = string.Empty;
-
-        public string SearchText
+        private string _searchText;
+         public string SearchText
         {
             get
             {
@@ -211,48 +208,61 @@ namespace FinalApp.ViewModels
             }
             set
             {
-                if (_searchText != value)
+                _searchText = value;
+                OnPropertyChanged();
+            }
+
+        }
+
+        ////step 2: create the command method for searching
+       public ICommand SearchTextChangedCommand => new Command(() =>
+        {
+            ObservableCollection<Employee> _employeesListFound = new ObservableCollection<Employee>();
+           
+               if (IsBusy)
+                    return;
+
+                IsBusy = true;
+
+                try
                 {
-                    _searchText = value ?? string.Empty;
-                    OnPropertyChanged();
-                    // Perform the search
-                    if (SearchCommand.CanExecute(null))
+                    List<Employee> entities = (from e in ListEmployees where e.Text.Contains(SearchText) select e).ToList();
+
+                    if (entities != null && entities.Any())
+
                     {
-                        SearchCommand.Execute(null);
+                        _employeesListFound = new ObservableCollection<Employee>(entities);
                     }
+
+
+                    ListEmployees.Clear();
+
+                    foreach (var item in _employeesListFound)
+                    {
+                        ListEmployees.Add(item);
+                     Console.WriteLine("edit the employee {0} : {1}", item.Id, item.Text);
                 }
-            }
-        }
 
-        // OnResearch
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
 
-        //step 2: create the command method for searching
+
+            
 
 
 
-        private Command _searchCommand;
 
-        public ICommand SearchCommand
-        {
-            get
-            {
-                _searchCommand = _searchCommand ?? new Command(DoSearchCommand, CanExecuteSearchCommand);
-                return _searchCommand;
-            }
+        });
 
-        }
-
-        private void DoSearchCommand()
-        {
-            // Refresh the list, which will automatically apply the search text
-            OnPropertyChanged();
-        }
-
-        private bool CanExecuteSearchCommand()
-        {
-            return true;
-        }
         #endregion
+
 
     }
 }

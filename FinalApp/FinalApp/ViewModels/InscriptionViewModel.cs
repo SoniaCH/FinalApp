@@ -13,10 +13,11 @@ namespace FinalApp.ViewModels
 {
    public  class InscriptionViewModel : BaseViewModel
     {
+
+        #region the property of the method
         // Step 1:
         // the First property to be recovered from the UI
-       
-        public Employee Employee {get;set;}
+        public Employee Employee { get; set; }
         private String text;
         public String Text //paramètre de Binding au niveau du view
         {
@@ -39,23 +40,25 @@ namespace FinalApp.ViewModels
                 OnPropertyChanged();
             }
         }
+        #endregion
+
 
         #region  Saving  employee
-      
+
         public ICommand SaveEmployeeCommand => new Command(async () =>
         {
             var employee = new Employee()
-            {   
+            {
                 Text = Text,
                 Description = Description,
-                IsVisible=false
-               
+                IsVisible = false
+
             };
-            
-          await DataStore.AddAsync(employee);
+
+            await DataStore.AddAsync(employee);
             Console.WriteLine("add employee " + employee.Text);
-         
-                await _nav.PopAsync();
+            await _nav.PopAsync();
+
         });
 
         #endregion
@@ -79,27 +82,8 @@ namespace FinalApp.ViewModels
             OpenPage();
 
         }
-
-
-
-
-
         #endregion
-
-
-        public ICommand ReturnCommand => new Command(() =>
-        {
-           
-
-            ////MessagingCenter.Send(this, "AddEmployee", Employee);
-            var _employee = Employee as Employee;
-            //ListEmployees.Add(_employee);
-            DataStore.AddAsync(_employee);
-
-            var ss = DependencyService.Get<AuthentificationViewModel>() ?? (new AuthentificationViewModel(_nav));
-
-
-        });
+     
     }
 
 }

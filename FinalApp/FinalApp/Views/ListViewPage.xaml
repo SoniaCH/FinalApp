@@ -17,21 +17,19 @@
                  VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
                  RefreshCommand="{Binding LoadEmployeesCommand}"
-                 IsPullToRefreshEnabled="true"
-                 IsRefreshing="{Binding IsBusy, Mode=OneWay}"
                  SelectedItem="{Binding SelectedEmployee}"
-                 
-                 CachingStrategy="RecycleElement">
+                 ItemTapped="ListView_OnItemTapped">
 
                 <ListView.Header>
 
                     <StackLayout Orientation="Horizontal" BackgroundColor="#b9b4aa" Spacing="20" >
-                        
-                        <SearchBar TextChanged="{Binding SearchText}"
+
+                        <SearchBar Text="{Binding SearchText}"
+                                   SearchCommand="{Binding SearchTextChangedCommand}"
                                    Placeholder="Search..."
                                    BackgroundColor="#b9b4aa"
                                    VerticalOptions="End"
-                                   SearchCommand="{Binding Path=BindingContext.SearchCommand, Source={x:Reference ItemsListView}">
+                                   >
                         </SearchBar>
                        
                     </StackLayout>
