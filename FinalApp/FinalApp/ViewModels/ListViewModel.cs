@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -16,9 +16,8 @@ namespace FinalApp.ViewModels
    
     public class ListViewModel : BaseViewModel
     {
+        #region the property of the class
         public Command LoadEmployeesCommand { get; set; }
-
-        private Employee _selectedEmployee; // the selected employee
 
         public ObservableCollection<Employee> _listEmployees;
         public ObservableCollection<Employee> ListEmployees
@@ -35,6 +34,7 @@ namespace FinalApp.ViewModels
 
         }
 
+        private Employee _selectedEmployee; // the selected employee
         public Employee SelectedEmployee
         {
             get
@@ -52,7 +52,7 @@ namespace FinalApp.ViewModels
                 }
             }
         }
-
+        #endregion
 
 
         #region  adding employee
@@ -112,20 +112,18 @@ namespace FinalApp.ViewModels
             Title = "List  ";
             this.ListEmployees = _listEmployees;
             ListEmployees = new ObservableCollection<Employee>();
-
-            LoadEmployeesCommand = new Command(async () => await ExecuteLoadEmployeesCommand());
+           
+            
         }
 
         public ListViewModel(INavigation nav)
         {
             Title = "List of the employee ";
-            this.ListEmployees = _listEmployees;
-            this.SelectedEmployee = _selectedEmployee;
-         
             _nav = nav;
-            CurrentPage = DependencyInject<Views.ListViewPage>.Get();
+            CurrentPage = DependencyInject<ListViewPage>.Get();
             OpenPage();
 
+            this.SelectedEmployee = _selectedEmployee;
             ListEmployees = new ObservableCollection<Employee>();
             this.SearchText = SearchText;
 

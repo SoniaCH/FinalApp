@@ -17,6 +17,7 @@
                  VerticalOptions="FillAndExpand"
                  HasUnevenRows="true"
                  RefreshCommand="{Binding LoadEmployeesCommand}"
+                 IsRefreshing="{Binding IsBusy}"
                  SelectedItem="{Binding SelectedEmployee}"
                  ItemTapped="ListView_OnItemTapped">
 

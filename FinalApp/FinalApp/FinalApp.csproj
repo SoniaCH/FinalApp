@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="SL">
-      <HintPath>..\..\..\..\..\Desktop\work\TrainingExample\SL.dll</HintPath>
+    <Reference Include="SqliteService">
+      <HintPath>..\..\..\..\..\Desktop\work\TrainingExample\SqliteService.dll</HintPath>
     </Reference>
   </ItemGroup>
 

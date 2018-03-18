@@ -5,7 +5,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using FinalApp.Model;
-using SL;
+
+using Root.Services.Sqlite;
 
 namespace FinalApp.ViewModels
 {
@@ -13,10 +14,11 @@ namespace FinalApp.ViewModels
     {
 
         public IDataStore<Employee> DataStore => DependencyService.Get<IDataStore<Employee>>() ?? new DataStore<Employee>("Data.db3");
-
+        public IDataStore<Admin> DataStoreAdmin => DependencyService.Get<IDataStore<Admin>>() ?? new DataStore<Admin>("Data.db3");
         public BaseViewModel() {
 
             DataStore.CreateTableAsync();
+            DataStoreAdmin.CreateTableAsync();
         }
 
         #region the property 

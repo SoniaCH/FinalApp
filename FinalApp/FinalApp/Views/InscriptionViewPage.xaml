@@ -5,14 +5,14 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Save" Command="{Binding SaveEmployeeCommand}"/>
+        <ToolbarItem Text="Save" Command="{Binding SaveAdminCommand}"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
         <StackLayout>
             
-            <Entry Text="{Binding Text}" Placeholder="Name"></Entry>
-            <Entry Text="{Binding Description}" Placeholder="Description"/>
+            <Entry Text="{Binding Name}" Placeholder="Name"></Entry>
+            <Entry Text="{Binding Password}" Placeholder="Description"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

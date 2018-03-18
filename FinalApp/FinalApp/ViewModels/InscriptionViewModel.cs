@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
-using SL;
+
 
 namespace FinalApp.ViewModels
 {
@@ -17,26 +17,26 @@ namespace FinalApp.ViewModels
         #region the property of the method
         // Step 1:
         // the First property to be recovered from the UI
-        public Employee Employee { get; set; }
-        private String text;
-        public String Text //paramètre de Binding au niveau du view
+        public Employee Admin { get; set; }
+        private String name;
+        public String Name //paramètre de Binding au niveau du view
         {
-            get { return text; }
+            get { return name; }
             set
             {
-                text = value;
+                name = value;
                 OnPropertyChanged();
             }
         }
 
         //The second property to be recovered from the UI
-        private String description;
-        public String Description //paramètre de Binding au niveau du view
+        private String password;
+        public String Password //paramètre de Binding au niveau du view
         {
-            get { return description; }
+            get { return password; }
             set
             {
-                description = value;
+                password = value;
                 OnPropertyChanged();
             }
         }
@@ -45,18 +45,16 @@ namespace FinalApp.ViewModels
 
         #region  Saving  employee
 
-        public ICommand SaveEmployeeCommand => new Command(async () =>
+        public ICommand SaveAdminCommand => new Command(async () =>
         {
-            var employee = new Employee()
+            var admin = new Admin()
             {
-                Text = Text,
-                Description = Description,
-                IsVisible = false
-
+                Name = Name,
+                Password = Password,
             };
 
-            await DataStore.AddAsync(employee);
-            Console.WriteLine("add employee " + employee.Text);
+            await DataStoreAdmin.AddAsync(admin);
+            Console.WriteLine("add admin " + admin.Name);
             await _nav.PopAsync();
 
         });
@@ -67,14 +65,14 @@ namespace FinalApp.ViewModels
 
         public InscriptionViewModel()
         {
-            Title = "Inscription ";
+            Title = "Inscription admin ";
         }
 
        
 
         public InscriptionViewModel(INavigation nav)
         {
-            this.Employee = Employee;
+            this.Admin = Admin;
 
             Title = "Inscription ";
             _nav = nav;

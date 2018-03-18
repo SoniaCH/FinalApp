@@ -18,12 +18,15 @@ namespace FinalApp.Views
         public ListViewPage ()
 		{
 			InitializeComponent ();
-		}
+            BindingContext = viewModel = new ListViewModel();
+        }
 
         //protected override void OnAppearing()
         //{
         //    base.OnAppearing();
-        //    viewModel.LoadEmployeesCommand.Execute(null);
+
+        //    if (viewModel.ListEmployees.Count == 0)
+        //        viewModel.LoadEmployeesCommand.Execute(null);
         //}
 
 

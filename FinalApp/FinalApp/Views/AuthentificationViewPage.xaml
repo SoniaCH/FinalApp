@@ -9,8 +9,8 @@
             <Image HorizontalOptions="Center" WidthRequest="300" Source="logo.png" />
             <Frame BackgroundColor="LightGray" HasShadow="False">
                 <StackLayout Orientation="Vertical" Spacing="10" >
-                    <Entry x:Name="Username" Text="{Binding Text}" Placeholder="Your Username" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
-                    <Entry x:Name="Password" Text="{Binding Description}" Placeholder="Your Password" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
+                    <Entry x:Name="Username" Text="{Binding Name}" Placeholder="Your Username" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
+                    <Entry x:Name="Password" Text="{Binding Password}" Placeholder="Your Password" PlaceholderColor="Gray" TextColor="Gray" HorizontalOptions="Center" />
                     <Entry Text="{Binding Msg}"></Entry>
                 </StackLayout>
             </Frame>

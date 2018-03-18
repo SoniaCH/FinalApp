@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
@@ -26,7 +26,7 @@ namespace FinalApp.ViewModels
         #region defining the atribute 
         // Step 1:
         // the First property to be recovered from the UI
-        public ObservableCollection<Employee> ListEmployees { get; set; }
+        public ObservableCollection<Admin> ListAdmins { get; set; }
         private string _msg;
         public string Msg {
             get
@@ -40,25 +40,25 @@ namespace FinalApp.ViewModels
             }
 
         }
-        private String text;
-        public String Text //paramètre de Binding au niveau du view
+        private String name;
+        public String Name //paramètre de Binding au niveau du view
         {
-            get { return text; }
+            get { return name; }
             set
             {
-                text = value;
+                name = value;
                 OnPropertyChanged();
             }
         }
 
         //The second property to be recovered from the UI
-        private String description;
-        public String Description //paramètre de Binding au niveau du view
+        private String password;
+        public String Password //paramètre de Binding au niveau du view
         {
-            get { return description; }
+            get { return password; }
             set
             {
-                description = value;
+                password = value;
                 OnPropertyChanged();
             }
         }
@@ -101,11 +101,11 @@ namespace FinalApp.ViewModels
         public ICommand EnterEmployeeCommand => new Command(async () =>
         {
             bool pass = false;
-            IEnumerable<Employee> _employeelist = await DataStore.GetAllAsync() as IEnumerable<Employee>;
+            IEnumerable<Admin> _adminlist = await DataStoreAdmin.GetAllAsync() as IEnumerable<Admin>;
 
-            foreach (Employee item in _employeelist)
+            foreach (Admin item in _adminlist)
             {
-                if (item.Text == text && item.Description == description)
+                if (item.Name == name && item.Password == password)
                 {
                     pass = true;
 
